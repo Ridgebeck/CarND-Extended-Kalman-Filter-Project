@@ -38,6 +38,7 @@ private:
   float noise_ax;
   float noise_ay;
 
+
   // previous timestamp
   long long previous_timestamp_;
 

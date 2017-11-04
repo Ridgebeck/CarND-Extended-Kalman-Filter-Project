@@ -80,7 +80,7 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
       /**
       Convert radar from polar to cartesian coordinates and initialize state.
       */
-      // read in measurement data for Px and Py and convert
+      // read in measurement data for Px and Py and convert from polar to cartesian
       ekf_.x_(0) = measurement_pack.raw_measurements_(0)*cos(measurement_pack.raw_measurements_(1));
       ekf_.x_(1) = measurement_pack.raw_measurements_(0)*sin(measurement_pack.raw_measurements_(1));
     }
@@ -187,16 +187,17 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     ekf_.R_ = R_laser_;
 
     cout << "update lidar" << endl;
-    
+
     // Update with Lidar Data
     ekf_.Update(measurement_pack.raw_measurements_);
-
-
 
   }
 
 
+  cout << "RMSE X: " << ekf_.RMSE(0) << endl;
+  cout << "RMSE Y: " << ekf_.RMSE(1) << endl;
+
   // print the output
-  cout << "x_ = " << ekf_.x_ << endl;
-  cout << "P_ = " << ekf_.P_ << endl;
+  //cout << "x_ = " << ekf_.x_ << endl;
+  //cout << "P_ = " << ekf_.P_ << endl;
 }

@@ -23,6 +23,9 @@ public:
   // measurement covariance matrix
   Eigen::MatrixXd R_;
 
+  // RMSE Vector
+  Eigen::VectorXd RMSE;
+
   /**
    * Constructor
    */

@@ -8,6 +8,9 @@ using Eigen::VectorXd;
 using namespace std;
 
 
+#include <math.h>
+
+
 // Please note that the Eigen library does not initialize 
 // VectorXd or MatrixXd objects with zeros upon creation.
 
@@ -83,11 +86,19 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   float rho_dot = (px*vx+py*vy)/rho;
 
 
+  //Make sure theta has a value from -pi to +pi
+  if (theta < -M_PI || theta > M_PI)
+  {
+    cout << "Angle not in Pi range!!!" << endl;
+  }
+
   // create prediction vector
   VectorXd z_pred = VectorXd(3);
   z_pred << rho, theta, rho_dot;
   // create y Vector
   y = z - z_pred;
+
+  cout << "Angle Theta:" << theta << endl; 
 
   S_ = H_ * P_ * H_.transpose() + R_;
   K_ = P_ * H_.transpose() * S_.inverse();
