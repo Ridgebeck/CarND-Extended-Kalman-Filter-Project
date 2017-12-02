@@ -170,8 +170,6 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // ekf_.R_ = MatrixXd(3, 3);
     ekf_.R_ = R_radar_;
 
-    cout << "update radar (EKF)" << endl;
-
     // Update with Radar Data
     ekf_.UpdateEKF(measurement_pack.raw_measurements_);
 
@@ -186,16 +184,11 @@ void FusionEKF::ProcessMeasurement(const MeasurementPackage &measurement_pack) {
     // ekf_.R_ = MatrixXd(2, 2);
     ekf_.R_ = R_laser_;
 
-    cout << "update lidar" << endl;
-
     // Update with Lidar Data
     ekf_.Update(measurement_pack.raw_measurements_);
 
   }
 
-
-  cout << "RMSE X: " << ekf_.RMSE(0) << endl;
-  cout << "RMSE Y: " << ekf_.RMSE(1) << endl;
 
   // print the output
   //cout << "x_ = " << ekf_.x_ << endl;

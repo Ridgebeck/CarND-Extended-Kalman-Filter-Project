@@ -54,7 +54,8 @@ void KalmanFilter::Update(const VectorXd &z) {
   S_ = H_ * P_ * H_.transpose() + R_;
   K_ = P_ * H_.transpose() * S_.inverse();
   x_ = x_ + K_ * y;
-  P_ = (I_ - K_ * H_) * P_;
+  P_ -= K_ * H_ * P_;
+  // P_ = (I_ - K_ * H_) * P_;
   
 
 }
@@ -85,20 +86,13 @@ void KalmanFilter::UpdateEKF(const VectorXd &z) {
   // Calculate velocity rho dot
   float rho_dot = (px*vx+py*vy)/rho;
 
-
-  //Make sure theta has a value from -pi to +pi
-  if (theta < -M_PI || theta > M_PI)
-  {
-    cout << "Angle not in Pi range!!!" << endl;
-  }
-
   // create prediction vector
   VectorXd z_pred = VectorXd(3);
   z_pred << rho, theta, rho_dot;
   // create y Vector
   y = z - z_pred;
-
-  cout << "Angle Theta:" << theta << endl; 
+  // normalize angle y(1)
+  y(1) = atan2(sin(y(1)), cos(y(1)));
 
   S_ = H_ * P_ * H_.transpose() + R_;
   K_ = P_ * H_.transpose() * S_.inverse();
