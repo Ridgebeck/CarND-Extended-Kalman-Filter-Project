@@ -46,6 +46,10 @@ FusionEKF::FusionEKF() {
   ekf_.F_ = MatrixXd(4, 4);
   ekf_.P_ = MatrixXd(4, 4);
 
+  ekf_.P_ = MatrixXd::Identity(4,4);
+
+
+
   // acceleration noise in x and y direction (set to 9)
   noise_ax = 9;
   noise_ay = 9;
